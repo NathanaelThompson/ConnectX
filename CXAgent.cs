@@ -47,7 +47,28 @@ namespace ConnectX
             int consecutiveBlkPieces, consecutiveRedPieces;
             PieceColor playerColor = PieceColor.Black;
 
-            //Vertical check
+            //Just a note to future readers, this is a pretty big, complex, maybe even convoluted section of code.
+            //To save you some time, I'd like to inform you that there are 5 major outer for loops,
+            //all of which have a varying number of inner for loops.
+            //However, all of the loops inside each of the 5 major loops all work similiarly.
+            //So instead of going through line by line, try to understand the pattern of one of the major loops first.
+
+            //The general idea is to work through the grid in 1 of 5 directions: Up, Left, Right, Diagonal Left, and Diagonal Right.
+            //If a win or near win is found for the black player, give it the column index and a max score and return immediately
+            //If a win or near win is found for the red player, give it the column index to block, and return immediately
+
+            //This Heuristic is weakest at scoring the diagonals, and detecting partial wins.
+            //By partial wins, I mean, for example: OXOO, or OXOXO, OOXOOXOO, where O = board piece and X = empty space
+            //Another example: O
+            //                 X
+            //                 O
+            //                 O
+
+            //If there is a line or section code that doesn't make sense, it could very well be a mistake,
+            //but it is more likely some defense against further convolution.
+            //Good luck.
+
+            //Vertical scoring
             for (int i = tiles.GetLength(0) - 1; i >= 0; i--)
             {
                 consecutiveRedPieces = 0;
@@ -79,7 +100,6 @@ namespace ConnectX
                                 if (tiles[i, j - 1].Empty == false)
                                 {
                                     currentMove.score = 0;
-                                    
                                     break;
                                 }
                                 else
@@ -97,7 +117,7 @@ namespace ConnectX
                         }
                     }
                     else if (tiles[i, j].Piece.Color != playerColor && tiles[i, j].Empty == false)
-                    {
+                    {//else if a red piece is found
                         consecutiveRedPieces++;
                         //Connect x number of red piees
                         for (int x = 1; x <= consecutiveRedPieces; x++)
@@ -117,11 +137,10 @@ namespace ConnectX
                                 {
                                     currentMove.score = 0;
                                     break;
-
                                 }
                                 else
                                 {
-                                    currentMove.score = Int32.MaxValue;
+                                    currentMove.score =0;
                                     currentMove.columnIndex = i;
                                     return currentMove;
                                 }
@@ -147,7 +166,7 @@ namespace ConnectX
                 }
             }
 
-            //Check horizontal
+            //Score left horizontal
             for (int iHorizontal = tiles.GetLength(1) - 1; iHorizontal >= 0; iHorizontal--)
             {
                 consecutiveBlkPieces = 0;
@@ -331,7 +350,7 @@ namespace ConnectX
                 }
             }
 
-            //run through down left diagonal tiles
+            //score down left diagonal tiles
             for (int iDiagRight = 0; iDiagRight < tiles.GetLength(0) - 1; iDiagRight++)
             {
                 for (int jDiagRight = 0; jDiagRight < tiles.GetLength(1) - 1; jDiagRight++)
@@ -441,7 +460,7 @@ namespace ConnectX
                 }
             }
 
-            //check up left diagonal
+            //score up left diagonal
             for (int i = tiles.GetLength(0) - 1; i >= 0; i--)
             {
                 for (int j = tiles.GetLength(1) - 1; j >= 0; j--)
@@ -547,6 +566,7 @@ namespace ConnectX
             int[] moves;
             PieceColor playerColor;
             int turnNumber = ConnectXMainGame.TurnNumber;
+
             if ((turnNumber + depth) % 2 == 1)
             {
                 playerColor = PieceColor.Black;
@@ -644,6 +664,8 @@ namespace ConnectX
             }
             return moves;
         }
+
+        //applies a move to the current board
         public void ApplyMove(Board currentBoard, int column, PieceColor playerColor)
         {
             GridTile[,] tiles = currentBoard.GetTiles();

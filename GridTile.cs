@@ -27,7 +27,6 @@ namespace ConnectX
             set { logicalGridY = value; }
         }
         
-       
         public BoardPiece Piece
         {
             get
