@@ -4,7 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/nate/documents/visual studio 2013/Projects/ConnectX/ConnectX/Content/GeneralUseFont.spritefont</File>
-    <File>C:/Users/nate/documents/visual studio 2013/Projects/ConnectX/ConnectX/Content/WinnerFont.spritefont</File>
+    <File>C:/Users/nate/Documents/Visual Studio 2013/Projects/ConnectX/ConnectX/Content/GeneralUseFont.spritefont</File>
+    <File>C:/Users/nate/Documents/Visual Studio 2013/Projects/ConnectX/ConnectX/Content/WinnerFont.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

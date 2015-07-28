@@ -92,10 +92,11 @@ namespace ConnectX
                             {
                                 if (j -1 < 0)
                                 {
+                                    currentMove.score = 0;
                                     break;
                                 }
                                 else
-                                    currentMove.columnIndex++;
+                                   currentMove.columnIndex++;
 
                                 if (tiles[i, j - 1].Empty == false)
                                 {
@@ -124,7 +125,7 @@ namespace ConnectX
                         {
                             if (consecutiveRedPieces >= ConnectXMainGame.NumToConnect)
                             {
-                                currentMove.score = Int32.MinValue;
+                                currentMove.score = Int32.MaxValue;
                                 currentMove.columnIndex = i;
                                 return currentMove;
                             }
@@ -140,7 +141,7 @@ namespace ConnectX
                                 }
                                 else
                                 {
-                                    currentMove.score =0;
+                                    currentMove.score += x*x;
                                     currentMove.columnIndex = i;
                                     return currentMove;
                                 }
